@@ -1,0 +1,6 @@
+f=open("samplecase.txt","r+")
+e=open("result.txt","w")
+data=f.read()
+print(data)
+f.close()
+e.close()

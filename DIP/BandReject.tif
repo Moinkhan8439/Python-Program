@@ -1,0 +1,46 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('noise2.tif',0)
+plt.subplot(132)
+plt.imshow(img,'gray')
+plt.title("Noisy Image")
+plt.axis("off")
+
+f = np.fft.fft2(img)
+f2 = np.fft.fftshift(f)
+f3 = 0.5*np.log(1+np.abs(f2))
+plt.subplot(131)
+plt.imshow(f3,'gray')
+plt.title("FFT")
+plt.axis("off")
+
+m,n = img.shape
+p,q = np.meshgrid(np.arange(-np.floor(n/2),np.floor(n/2)), np.arange(-np.floor(m/2),np.floor(m/2)))
+D = np.sqrt(p**2 + q**2)
+
+#band_reject
+d=180.01                   			            
+W=20           
+n=1
+#butterworth
+C=1/(1+((D*W)/(D**2-d**2))**(2*n))
+
+#band_pass
+#C=1-C
+
+hp = f2*C
+i = np.fft.ifftshift(hp)
+i2 = np.fft.ifft2(i)
+i2 = np.abs(i2);
+m = np.max(i2)
+i2 = i2/m
+
+plt.subplot(133)
+plt.imshow(i2,cmap="gray")
+plt.title("ButterWorth")
+plt.axis("off")
+cv2.imshow("Noisy Image",img)
+cv2.imshow("Reject",i2)
+plt.show()

@@ -1,0 +1,7 @@
+f=open("demo.txt")
+d=open("result.txt","w")
+data=f.read()
+d.write(data)
+print(data)
+f.close()
+d.close()
