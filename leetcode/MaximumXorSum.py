@@ -32,10 +32,21 @@ Constraints:
 
 
 class Solution:
-    def findMaximumXOR(self, nums: List[int]) -> int:
-        for i in nums:
-            for j in nums:  
-                pass
+    def findMaximumXOR(self, nums: list[int]) -> int:
+        #O(n*n)
+        # m=0
+        # for i in nums:
+        #     for j in nums:  
+        #         m=max(m,i^j)
+        # return m
+        cmax = 0
+        for i in range(31, -1, -1):
+            tmp = cmax | (1 << i)
+            S = set(tmp & j for j in nums)
+            if any(j ^ tmp in S for j in S): 
+                cmax = tmp
+        return cmax
+
 
 l=list(map(int,input().split()))
 print(Solution.findMaximumXOR(Solution,l))
