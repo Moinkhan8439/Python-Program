@@ -34,7 +34,7 @@ strs[i] consists of only lowercase English letters.
 
 
 class Solution:
-    def longestCommonPrefix(self, s:str) -> str:
+    def longestCommonPrefix(self, strs:str) -> str:
         m = min(strs)
         strs[strs.index(m)] = strs[0]
         strs[0] = m
